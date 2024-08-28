@@ -7,7 +7,7 @@ export const AppRouter = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="login/*" element={<AuthRouter />} />
+          <Route path="auth/*" element={<AuthRouter />} />
           <Route path="/*" element={<ProductsRoutes />} />
         </Routes>
         {/* <footer className="bg-red-500">Hello</footer> */}

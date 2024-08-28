@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Modal, Input } from "antd";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 import { usersPost } from "../../controllers";
 
 export const LoginPage = () => {
@@ -83,13 +84,13 @@ export const LoginPage = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#090F26] flex flex-col justify-center items-center text-white">
-      <a href="../../index.html">
+      <Link to="/">
         <img
           src="/assets/icons/homePage.png"
           alt="home Page"
           className="w-[100px] h-[100px] m-3"
         />
-      </a>
+      </Link>
       <section className="flex w-[18rem] flex-col space-y-10">
         <div className="text-center text-4xl font-medium">Log In</div>
         <div className="w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-indigo-500">
@@ -126,12 +127,12 @@ export const LoginPage = () => {
         </a>
         <p className="text-center text-lg">
           No account?
-          <a
-            href="../users/register.html"
+          <Link
+            to="register"
             className="font-medium text-indigo-500 underline-offset-4 hover:underline"
           >
             Create One
-          </a>
+          </Link>
         </p>
       </section>
 
