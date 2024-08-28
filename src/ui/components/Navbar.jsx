@@ -1,22 +1,70 @@
+import { Link } from "react-router-dom";
+import { FaHome, FaSignInAlt, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { useState } from "react";
+
 export const Navbar = () => {
+  // Estado de autenticación
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Función para simular el inicio de sesión
+  const toggleLogin = () => {
+    setIsLoggedIn((prev) => !prev);
+  };
+
   return (
-    <header className="sticky top-0 bg-white shadow-lg z-50">
+    <header className="sticky top-0 bg-[#041C32] shadow-lg z-50 text-white w-full">
       <nav className="container mx-auto flex items-center justify-between p-4">
         <div className="text-2xl font-bold">
-          <a href="#">Logo</a>
+          <Link to="/">
+            <img
+              src="/assets/images/logoStore.jpg"
+              alt="Logo Store"
+              className="h-[80px] w-[80px]"
+            />
+          </Link>
         </div>
-        <div className="hidden md:flex space-x-6">
-          <a href="#" className="text-gray-700 hover:text-blue-500">
+        <div className="flex items-center max-w-md mx-auto bg-white rounded-lg ">
+          <div>
+            <input
+              type="search"
+              className="w-full px-4 py-1 text-gray-800 rounded-full focus:outline-none"
+              placeholder="search"
+            />
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="flex items-center bg-blue-500 justify-center w-12 h-12 text-white rounded-r-lg"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div className="flex space-x-6 mt-2 justify-center">
+          <a href="#" className=" hover:text-blue-500">
             Inicio
           </a>
-          <a href="#" className="text-gray-700 hover:text-blue-500">
+          <a href="#" className=" hover:text-blue-500">
             Servicios
           </a>
-          <a href="#" className="text-gray-700 hover:text-blue-500">
+          <a href="#" className=" hover:text-blue-500">
             Contacto
           </a>
         </div>
-        <div className="md:hidden">
+        {/* <div className="md:hidden">
           <button className="text-gray-700 focus:outline-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +81,7 @@ export const Navbar = () => {
               />
             </svg>
           </button>
-        </div>
+        </div> */}
       </nav>
     </header>
   );

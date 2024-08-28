@@ -1,14 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ShowProductsPage } from "../products";
+import { ProductsRoutes } from "../products/router/ProductsRoutes";
+import { AuthRouter } from "../auth/router/AuthRouter";
 
 export const AppRouter = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<ShowProductsPage />} />
-          {/* Add more routes here */}
+          <Route path="login/*" element={<AuthRouter />} />
+          <Route path="/*" element={<ProductsRoutes />} />
         </Routes>
+        {/* <footer className="bg-red-500">Hello</footer> */}
       </BrowserRouter>
     </>
   );
