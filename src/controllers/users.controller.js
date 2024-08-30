@@ -1,10 +1,21 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const baseURL = "http://localhost:8080";
 
-export const usersGet = async (route) => {
+export const usersGet = async (route = "") => {
   try {
-    const response = await axios.get(`${baseURL}/api/auth/${route}`);
+    // Obtén el token de la cookie
+    const token = Cookies.get("token"); // Reemplaza 'yourCookieName' con el nombre de tu cookie
+
+    // Configura los headers para incluir el token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`, // Usa 'Bearer' si tu backend sigue esta convención, si no, ajusta según sea necesario
+      },
+    };
+
+    const response = await axios.get(`${baseURL}/api/auth/${route}`, config);
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);

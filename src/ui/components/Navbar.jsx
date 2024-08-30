@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaSignInAlt, FaUser, FaSignOutAlt } from "react-icons/fa";
-import { useState } from "react";
+import { BiSolidCartAlt } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { usersGet } from "../../controllers";
 
 export const Navbar = () => {
   // Estado de autenticación
@@ -11,9 +13,24 @@ export const Navbar = () => {
     setIsLoggedIn((prev) => !prev);
   };
 
+  const handleUserOnline = async () => {
+    // API endpoint for verifying Code
+    const response = await usersGet();
+
+    if (response.statusCode === 200) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    handleUserOnline();
+  }, []);
+
   return (
     <header className="sticky top-0 bg-[#041C32] shadow-lg z-50 text-white w-full">
-      <nav className="container mx-auto flex items-center justify-between p-4">
+      <nav className="container mx-auto flex items-center justify-evenly p-4">
         <div className="text-2xl font-bold">
           <Link to="/">
             <img
@@ -53,7 +70,39 @@ export const Navbar = () => {
             </button>
           </div>
         </div>
-        <div className="flex space-x-6 mt-2 justify-center">
+        {isLoggedIn ? (
+          <div className="flex space-x-6 mt-2 justify-around">
+            <button
+              className="text-gray-700 focus:outline-none"
+              onClick={toggleLogin}
+            >
+              <Link to="/users/profile">
+                <FaUser color="white" size={24} />
+              </Link>
+            </button>
+            <button
+              className="text-gray-700 focus:outline-none"
+              // onClick={toggleProfile}
+            >
+              <BiSolidCartAlt color="white" size={24} />
+            </button>
+            <button
+              className="text-gray-700 focus:outline-none"
+              onClick={toggleLogin}
+            >
+              <FaSignOutAlt color="white" size={24} />
+            </button>
+          </div>
+        ) : (
+          <div className="flex space-x-6 mt-2 justify-end">
+            <Link to="/auth/">
+              <button className="text-gray-700 focus:outline-none">
+                <FaSignInAlt size={30} />
+              </button>
+            </Link>
+          </div>
+        )}
+        {/* <div className="flex space-x-6 mt-2 justify-center">
           <a href="#" className=" hover:text-blue-500">
             Inicio
           </a>
@@ -63,7 +112,7 @@ export const Navbar = () => {
           <a href="#" className=" hover:text-blue-500">
             Contacto
           </a>
-        </div>
+        </div> */}
         {/* <div className="md:hidden">
           <button className="text-gray-700 focus:outline-none">
             <svg

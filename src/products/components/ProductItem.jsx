@@ -9,7 +9,7 @@ export const ProductItem = ({ _id, photo, price, title }) => {
   const navigate = useNavigate();
 
   const handleDetailProduct = () => {
-    navigate(`/product/${_id}`);
+    navigate(`/products/${_id}`);
   };
 
   const handleSession = async () => {
