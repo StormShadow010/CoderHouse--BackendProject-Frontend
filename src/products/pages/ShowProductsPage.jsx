@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { ProductItem } from "../components/ProductItem";
+import { Link } from "react-router-dom";
+import { productsGet, usersGet } from "../../controllers";
+import { MenuProductsAdmin } from "../../ui/components/MenuProductsAdmin";
 
 export const ShowProductsPage = () => {
+  const [userSession, setUserSession] = useState(null);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [detailPage, setDetailPage] = useState({
     limit: 0,
     nextPage: null,
@@ -13,15 +17,35 @@ export const ShowProductsPage = () => {
     filter: "",
   });
 
-  const handleProducts = async (page) => {
+  const handleSessionUser = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/products/paginate?page=${page}&title=${detailPage.filter}`
+      let responseUser = await usersGet(`/`);
+      setUserSession(responseUser.response);
+      handleProducts(detailPage.page, responseUser.response);
+    } catch (error) {
+      console.error("Failed to fetch user session:", error);
+      handleProducts(detailPage.page);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleProducts = async (page, userSessionData = null) => {
+    const userId = userSessionData?._id ? userSessionData._id.toString() : "";
+    const userRole = userSessionData?.role || "";
+
+    try {
+      const response = await productsGet(
+        `/paginate?page=${page}&title=${detailPage.filter}`,
+        {
+          userId,
+          userRole,
+        }
       );
-      setProducts(response.data.response);
+      setProducts(response.response);
       setDetailPage((prevState) => ({
         ...prevState,
-        ...response.data.info,
+        ...response.info,
       }));
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -35,7 +59,7 @@ export const ShowProductsPage = () => {
         ...prevState,
         page: nextPage,
       }));
-      handleProducts(nextPage);
+      handleProducts(nextPage, userSession);
     }
   };
 
@@ -46,16 +70,22 @@ export const ShowProductsPage = () => {
         ...prevState,
         page: prevPage,
       }));
-      handleProducts(prevPage);
+      handleProducts(prevPage, userSession);
     }
   };
 
   useEffect(() => {
-    handleProducts(detailPage.page);
-  }, [detailPage.page, detailPage.filter]);
+    handleSessionUser();
+  }, []);
+
+  if (loading) {
+    return <p>Cargando...</p>; // O puedes utilizar un spinner u otro indicador de carga.
+  }
 
   return (
     <div className="w-full h-full bg-[#144272]">
+      {/* Mostrar el menú adicional solo si el rol es 1 o 2 */}
+      <MenuProductsAdmin />
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-2 xxl:grid-cols-4 w-full p-3">
         {products &&
           products.map((product) => (

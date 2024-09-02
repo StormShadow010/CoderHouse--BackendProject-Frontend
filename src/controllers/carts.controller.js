@@ -3,38 +3,10 @@ import Cookies from "js-cookie";
 
 const baseURL = "http://localhost:8080";
 
-export const productRoute = async (route) => {
-  try {
-    const response = await axios.get(`${baseURL}/api/products/${route}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
-
-export const productsGet = async (route, { userId = "", userRole = "" }) => {
+export const cartsCreate = async (route, data) => {
   try {
     const token = Cookies.get("token");
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "user-id": userId || "",
-        "user-role": userRole || "",
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    };
-    const response = await axios.get(`${baseURL}/api/products${route}`, config);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
-
-export const productPost = async (route, data) => {
-  try {
-    const token = Cookies.get("token");
-    const config = {
+    const opts = {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -42,9 +14,42 @@ export const productPost = async (route, data) => {
       withCredentials: true,
     };
     const response = await axios.post(
-      `${baseURL}/api/products${route}`,
+      `${baseURL}/api/carts${route}`,
       data,
-      config
+      opts
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const cartsGet = async (route) => {
+  try {
+    const token = Cookies.get("token");
+    const opts = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get(`${baseURL}/api/carts${route}`, opts);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const cartsDeleteProduct = async (productId) => {
+  try {
+    const token = Cookies.get("token");
+    const opts = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.delete(
+      `${baseURL}/api/carts/${productId}`,
+      opts
     );
     return response.data;
   } catch (error) {
@@ -52,19 +57,19 @@ export const productPost = async (route, data) => {
   }
 };
 
-export const productDelete = async (route) => {
+export const cartsUpdateProductQuantity = async (productId, quantity) => {
   try {
     const token = Cookies.get("token");
-    const config = {
+    const opts = {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      withCredentials: true,
     };
-    const response = await axios.delete(
-      `${baseURL}/api/products/${route}`,
-      config
+    const response = await axios.put(
+      `${baseURL}/api/carts/${productId}`,
+      { quantity },
+      opts
     );
     return response.data;
   } catch (error) {

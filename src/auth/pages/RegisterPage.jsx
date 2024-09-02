@@ -28,10 +28,7 @@ export const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Add your API endpoint for registering new user
-
-    const response = await usersPost(`register`, newUser);
-    console.log(response);
-
+    const response = await usersPost(`/register`, newUser);
     if (response.statusCode === 201) {
       setIsModalOpen(true);
     } else {
@@ -46,7 +43,7 @@ export const RegisterPage = () => {
 
   const handleModalOk = async () => {
     // API endpoint for verifying Code
-    const response = await usersPost(`verify`, {
+    const response = await usersPost(`/verify`, {
       email: newUser.email,
       code: verificationCode,
     });
@@ -86,7 +83,7 @@ export const RegisterPage = () => {
       timer: 1500,
     });
     // API endpoint for verifying Code
-    await usersPost(`verify`, {
+    await usersPost(`/verify`, {
       email: newUser.email,
       code: "",
     });

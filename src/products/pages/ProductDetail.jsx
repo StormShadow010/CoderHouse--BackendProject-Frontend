@@ -11,6 +11,7 @@ export const ProductDetail = () => {
     try {
       // Replace with your API endpoint for fetching product data
       const response = await productRoute(`/${pid}`);
+
       setProduct(response.response);
     } catch (error) {
       console.error("Error fetching product:", error);

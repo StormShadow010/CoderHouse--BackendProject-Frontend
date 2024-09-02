@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Modal, Input } from "antd";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usersPost } from "../../controllers";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -21,7 +22,7 @@ export const LoginPage = () => {
     e.preventDefault();
 
     // API endpoint for login
-    const response = await usersPost(`login`, {
+    const response = await usersPost(`/login`, {
       email: user.email,
       password: user.password,
     });
@@ -36,11 +37,12 @@ export const LoginPage = () => {
 
   const handleModalOk = async () => {
     // API endpoint for verifying Code
-    const response = await usersPost(`verifyLogin`, {
+    const response = await usersPost(`/verifyLogin`, {
       email: user.email,
       password: user.password,
       code: verificationCode,
     });
+
     if (response.statusCode === 200) {
       Swal.fire({
         title: "Login successful",
@@ -58,6 +60,7 @@ export const LoginPage = () => {
         showConfirmButton: false,
       }).then(() => {
         setIsModalOpen(false);
+        navigate(`/`);
       });
     } else {
       Swal.fire({
@@ -119,12 +122,12 @@ export const LoginPage = () => {
         >
           LOG IN
         </button>
-        <a
-          href="../users/resetPassword.html"
+        <Link
+          to="resetPassword"
           className="transform text-center font-semibold text-gray-500 duration-300 hover:text-gray-300"
         >
           FORGOT PASSWORD?
-        </a>
+        </Link>
         <p className="text-center text-lg">
           No account?
           <Link

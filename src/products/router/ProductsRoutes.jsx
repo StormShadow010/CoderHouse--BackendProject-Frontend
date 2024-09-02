@@ -1,7 +1,11 @@
 import { Navbar } from "../../ui/components/Navbar";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { ShowProductsPage } from "../pages";
-import { ProductDetail } from "../pages/ProductDetail";
+import { Route, Routes } from "react-router-dom";
+import {
+  CreateProduct,
+  ShowProductsPage,
+  ProductDetail,
+  AdminProducts,
+} from "../pages";
 
 export const ProductsRoutes = () => {
   return (
@@ -10,6 +14,8 @@ export const ProductsRoutes = () => {
       <Routes>
         <Route path="/" element={<ShowProductsPage />} />
         <Route path="/:pid" element={<ProductDetail />} />
+        <Route path="/createProduct" element={<CreateProduct />} />
+        <Route path="/adminProducts" element={<AdminProducts />} />
       </Routes>
     </>
   );

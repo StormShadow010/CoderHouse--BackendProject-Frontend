@@ -13,7 +13,6 @@ export const DetailUser = () => {
     const response = await usersGet();
     if (response.statusCode === 200) {
       setUserInfo({ ...response.response });
-      console.log("UserOnline");
     } else {
       console.error("Error fetching user data");
     }
