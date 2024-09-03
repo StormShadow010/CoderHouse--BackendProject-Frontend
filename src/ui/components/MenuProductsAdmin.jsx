@@ -14,6 +14,7 @@ export const MenuProductsAdmin = () => {
 
   const handleUserOnline = async () => {
     const response = await usersGet("/");
+
     if (response.statusCode === 200) {
       setUserSession((prevState) => {
         const updatedFields = Object.keys(prevState).reduce((acc, key) => {
@@ -40,7 +41,7 @@ export const MenuProductsAdmin = () => {
 
   return (
     <>
-      {isLoggedIn && (
+      {isLoggedIn && (userSession.role == 1 || userSession.role == 2) && (
         <div className="fixed inset-y-0 left-0 flex items-center ml-2 z-30">
           <div className="bg-gray-800 text-white p-4 rounded-lg">
             <ul className="flex flex-col items-center">

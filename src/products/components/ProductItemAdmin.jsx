@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { productDelete, usersGet } from "../../controllers";
-
+import { Modal, Form, Input, Button } from "antd";
+import { productDelete, productPut, usersGet } from "../../controllers";
+import Swal from "sweetalert2";
+// productUpdate
 /* eslint-disable react/prop-types */
 export const ProductItemAdmin = ({
   _id,
   photo,
   price,
   title,
+  stock,
   onQuantityChange,
 }) => {
   const [userSession, setUserSession] = useState({
@@ -17,6 +20,8 @@ export const ProductItemAdmin = ({
     role: "",
   });
   const [isUserSessionValid, setIsUserSessionValid] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   const handleSession = async () => {
     try {
@@ -49,7 +54,34 @@ export const ProductItemAdmin = ({
   const handleDeleteProduct = async (id) => {
     const response = await productDelete(`${id}`);
     if (response.statusCode === 200) {
+      Swal.fire({
+        title: "Product removed successfully",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
       onQuantityChange();
+    }
+  };
+
+  const handleEditProduct = () => {
+    setIsModalOpen(true);
+    form.setFieldsValue({
+      title,
+      price,
+      stock,
+      photo,
+    });
+  };
+
+  const handleUpdateProduct = async (values) => {
+    try {
+      const response = await productPut(`/${_id}`, values);
+      if (response.statusCode === 200) {
+        onQuantityChange();
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
     }
   };
 
@@ -71,7 +103,10 @@ export const ProductItemAdmin = ({
         <div className="w-full flex flex-col justify-center items-center">
           <span className="ml-4"></span>
           <p className="mb-2 mr-2 text-xl font-semibold text-gray-800 text-right">
-            ${price}
+            Price:${price}
+          </p>
+          <p className="mb-2 mr-2 text-xl font-semibold text-gray-800 text-right">
+            Stock:{stock}
           </p>
           <div className="w-full flex items-center justify-evenly">
             {isUserSessionValid &&
@@ -115,7 +150,7 @@ export const ProductItemAdmin = ({
               (userSession.role === 1 || userSession.role === 2) && (
                 <button
                   className="block p-2 rounded-full bg-blue-600 text-white mx-5 mb-2 hover:bg-blue-500 hover:scale-125 focus:outline-none focus:bg-blue-500"
-                  // onClick={() => handleEditProduct(_id)}
+                  onClick={handleEditProduct}
                 >
                   <svg
                     fill="#000000"
@@ -176,27 +211,65 @@ export const ProductItemAdmin = ({
                   </svg>
                 </button>
               )}
-            {/* {isUserSessionValid && userSession.role != 1 && (
-              <button
-                className="block p-2 rounded-full bg-blue-600 text-white mx-5 mb-2 hover:bg-blue-500 hover:scale-125 focus:outline-none focus:bg-blue-500"
-                onClick={handleAddProduct}
-              >
-                <svg
-                  className="h-8 w-8"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                </svg>
-              </button>
-            )} */}
           </div>
         </div>
       </div>
+
+      <Modal
+        title="Edit Product"
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={[
+          <Button key="back" onClick={() => setIsModalOpen(false)}>
+            Cancel
+          </Button>,
+          <Button key="submit" type="primary" onClick={() => form.submit()}>
+            Update
+          </Button>,
+        ]}
+      >
+        <Form form={form} layout="vertical" onFinish={handleUpdateProduct}>
+          <Form.Item
+            label="Title"
+            name="title"
+            rules={[
+              { required: true, message: "Please input the product title!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Price"
+            name="price"
+            rules={[
+              { required: true, message: "Please input the product price!" },
+            ]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="Stock"
+            name="stock"
+            rules={[
+              { required: true, message: "Please input the product stock!" },
+            ]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="Photo URL"
+            name="photo"
+            rules={[
+              {
+                required: true,
+                message: "Please input the product photo URL!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

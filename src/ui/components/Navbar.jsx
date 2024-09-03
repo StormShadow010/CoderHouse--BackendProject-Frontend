@@ -65,28 +65,26 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 bg-[#041C32] shadow-lg z-50 text-white w-full">
-      <nav className="container mx-auto flex items-center justify-evenly p-4">
-        <div className="text-2xl font-bold">
-          <Link to="/">
-            <img
-              src="/assets/images/logoStore.jpg"
-              alt="Logo Store"
-              className="h-[80px] w-[80px]"
-            />
-          </Link>
-        </div>
+      <nav className="container mx-auto p-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="flex justify-center items-center md:w-1/4">
+            <Link to="/">
+              <img
+                src="/assets/images/logoStore.jpg"
+                alt="Logo Store"
+                className="h-[60px] w-[60px] md:h-[80px] md:w-[80px]"
+              />
+            </Link>
+          </div>
 
-        {!isCartsRoute && (
-          <>
-            <div className="flex items-center max-w-md mx-auto bg-white rounded-lg ">
-              <div>
+          {!isCartsRoute && (
+            <div className="flex items-center w-full mt-4 md:mt-0 md:w-1/2">
+              <div className="flex items-center w-full max-w-md mx-auto bg-white rounded-lg">
                 <input
                   type="search"
                   className="w-full px-4 py-1 text-gray-800 rounded-full focus:outline-none"
                   placeholder="search"
                 />
-              </div>
-              <div>
                 <button
                   type="submit"
                   className="flex items-center bg-blue-500 justify-center w-12 h-12 text-white rounded-r-lg"
@@ -108,35 +106,35 @@ export const Navbar = () => {
                 </button>
               </div>
             </div>
-          </>
-        )}
-
-        <div className="flex space-x-6 mt-2 justify-around">
-          {isLoggedIn ? (
-            <>
-              <Link to="/users/profile">
-                <FaUser color="white" size={24} />
-              </Link>
-              <Link to="/carts">
-                <BiSolidCartAlt color="white" size={24} />
-              </Link>
-              {userSession.role === 1 && (
-                <Link to="/users/adminUsers">
-                  <FaUserEdit color="white" size={24} />
-                </Link>
-              )}
-              <button
-                className="text-gray-700 focus:outline-none"
-                onClick={handleLogout}
-              >
-                <FaSignOutAlt color="white" size={24} />
-              </button>
-            </>
-          ) : (
-            <Link to="/auth/">
-              <FaSignInAlt color="white" size={30} />
-            </Link>
           )}
+
+          <div className="flex space-x-6 mt-4 md:mt-0 justify-center md:w-1/4">
+            {isLoggedIn ? (
+              <>
+                <Link to="/users/profile">
+                  <FaUser color="white" size={24} />
+                </Link>
+                <Link to="/carts">
+                  <BiSolidCartAlt color="white" size={24} />
+                </Link>
+                {userSession.role === 1 && (
+                  <Link to="/users/adminUsers">
+                    <FaUserEdit color="white" size={24} />
+                  </Link>
+                )}
+                <button
+                  className="text-gray-700 focus:outline-none"
+                  onClick={handleLogout}
+                >
+                  <FaSignOutAlt color="white" size={24} />
+                </button>
+              </>
+            ) : (
+              <Link to="/auth/">
+                <FaSignInAlt color="white" size={30} />
+              </Link>
+            )}
+          </div>
         </div>
       </nav>
     </header>

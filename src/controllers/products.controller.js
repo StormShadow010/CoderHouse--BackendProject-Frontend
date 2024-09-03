@@ -52,6 +52,27 @@ export const productPost = async (route, data) => {
   }
 };
 
+export const productPut = async (route, data) => {
+  try {
+    const token = Cookies.get("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    };
+    const response = await axios.put(
+      `${baseURL}/api/products${route}`,
+      data,
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 export const productDelete = async (route) => {
   try {
     const token = Cookies.get("token");

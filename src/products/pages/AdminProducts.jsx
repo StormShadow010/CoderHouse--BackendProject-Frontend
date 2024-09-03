@@ -35,8 +35,36 @@ export const AdminProducts = () => {
         userRole,
       });
       setProducts(responseProducts.response);
+      setDetailPage((prevState) => ({
+        ...prevState,
+        ...responseProducts.info,
+      }));
     } catch (error) {
       console.error("Failed to fetch products:", error);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (detailPage.nextPage) {
+      const nextPage = detailPage.page + 1;
+      setDetailPage((prevState) => ({
+        ...prevState,
+        page: nextPage,
+      }));
+      handleProducts(nextPage, userSession);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (detailPage.prevPage) {
+      const prevPage = detailPage.page - 1;
+      setDetailPage((prevState) => ({
+        ...prevState,
+        page: prevPage,
+      }));
+      handleProducts(prevPage, userSession);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -64,7 +92,26 @@ export const AdminProducts = () => {
             />
           ))}
       </div>
-      {/* Pagination */}
+      {products && (
+        <div className="flex justify-center">
+          <button
+            onClick={handlePrevPage}
+            className={`p-2 rounded-full bg-blue-500 text-white hover:bg-blue-400 focus:outline-none focus:bg-blue-400 ${
+              detailPage.prevPage === null ? "hidden" : ""
+            }`}
+          >
+            Anterior
+          </button>
+          <button
+            onClick={handleNextPage}
+            className={`ml-2 p-2 rounded-full bg-blue-500 text-white hover:bg-blue-400 focus:outline-none focus:bg-blue-400 ${
+              detailPage.nextPage === null ? "hidden" : ""
+            }`}
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -12,6 +12,7 @@ export const usersGet = async (route = "") => {
       headers: {
         Authorization: `Bearer ${token}`, // Usa 'Bearer' si tu backend sigue esta convención, si no, ajusta según sea necesario
       },
+      withCredentials: true,
     };
 
     const response = await axios.get(`${baseURL}/api/auth/${route}`, config);
@@ -51,6 +52,7 @@ export const usersGetAll = async (route = "") => {
       headers: {
         Authorization: `Bearer ${token}`, // Usa 'Bearer' si tu backend sigue esta convención, si no, ajusta según sea necesario
       },
+      withCredentials: true,
     };
 
     const response = await axios.get(`${baseURL}/api/users/${route}`, config);

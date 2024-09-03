@@ -26,11 +26,11 @@ export const cartsCreate = async (route, data) => {
 
 export const cartsGet = async (route) => {
   try {
-    const token = Cookies.get("token");
     const opts = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
     const response = await axios.get(`${baseURL}/api/carts${route}`, opts);
     return response.data;
@@ -46,6 +46,7 @@ export const cartsDeleteProduct = async (productId) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     };
     const response = await axios.delete(
       `${baseURL}/api/carts/${productId}`,
@@ -65,6 +66,7 @@ export const cartsUpdateProductQuantity = async (productId, quantity) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     };
     const response = await axios.put(
       `${baseURL}/api/carts/${productId}`,

@@ -28,6 +28,7 @@ export const ticketsPost = async (id) => {
       headers: {
         Authorization: `Bearer ${token}`, // Usa 'Bearer' si tu backend sigue esta convención, si no, ajusta según sea necesario
       },
+      withCredentials: true,
     };
     const response = await axios.post(
       `${baseURL}/api/tickets/${id}`,

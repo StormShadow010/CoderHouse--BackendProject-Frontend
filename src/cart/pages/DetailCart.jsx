@@ -16,11 +16,10 @@ export const DetailCart = () => {
     try {
       let responseUser = await usersGet(`/`);
 
-      if (responseUser.statusCode == 200 && responseUser.response._id) {
+      if (responseUser.statusCode === 200 && responseUser.response._id) {
         setUserSession(responseUser);
-
         let responseCart = await cartsGet(`/?uid=${responseUser.response._id}`);
-        setCartsProducts(responseCart.response);
+        setCartsProducts(responseCart.response || []);
       } else {
         console.error("Invalid responseUser structure:", responseUser);
       }
@@ -34,18 +33,25 @@ export const DetailCart = () => {
       let responseUser = await usersGet(`/`);
       let responseTotal = await ticketsGet(`/${responseUser.response._id}`);
 
-      if (responseTotal.response.length === 0) {
+      if (responseTotal && Array.isArray(responseTotal.response)) {
+        if (responseTotal.response.length === 0) {
+          setTotalCart({
+            subTotal: 0,
+            total: 0,
+          });
+        } else {
+          setTotalCart({
+            subTotal: responseTotal.response[0].subTotal || 0,
+            total: responseTotal.response[0].total || 0,
+          });
+        }
+      } else {
+        console.error("Invalid responseTotal structure:", responseTotal);
         setTotalCart({
           subTotal: 0,
           total: 0,
         });
-        return;
       }
-
-      setTotalCart({
-        subTotal: responseTotal.response[0].subTotal,
-        total: responseTotal.response[0].total,
-      });
     } catch (error) {
       console.error(error);
     }
@@ -74,7 +80,7 @@ export const DetailCart = () => {
           <h2 className="text-lg font-bold text-white flex flex-col items-center">
             Items (total): {cartsProducts.length}
           </h2>
-          {cartsProducts?.map((product) => (
+          {cartsProducts.map((product) => (
             <CartItem
               key={product._id}
               product={product}

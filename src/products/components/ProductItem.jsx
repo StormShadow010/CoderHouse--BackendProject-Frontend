@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 // eslint-disable-next-line react/prop-types
-export const ProductItem = ({ _id, photo, price, title, supplier_id }) => {
+export const ProductItem = ({
+  IDproduct,
+  photo,
+  price,
+  title,
+  supplier_id,
+}) => {
   const [userSession, setUserSession] = useState({
     _id: "",
     username: "",
@@ -18,7 +24,7 @@ export const ProductItem = ({ _id, photo, price, title, supplier_id }) => {
   const navigate = useNavigate();
 
   const handleDetailProduct = () => {
-    navigate(`/products/${_id}`);
+    navigate(`/products/${IDproduct}`);
   };
 
   const handleSession = async () => {
@@ -52,10 +58,11 @@ export const ProductItem = ({ _id, photo, price, title, supplier_id }) => {
   const handleAddProduct = async () => {
     let data = {
       user_id: userSession._id,
-      product_id: _id,
+      product_id: IDproduct.toString(),
       supplier_id: supplier_id._id,
       quantity: 1,
     };
+
     const response = await cartsCreate(`/`, data);
     if (response.data.statusCode === 201) {
       Swal.fire({

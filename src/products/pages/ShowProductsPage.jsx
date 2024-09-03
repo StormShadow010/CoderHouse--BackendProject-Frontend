@@ -60,6 +60,7 @@ export const ShowProductsPage = () => {
         page: nextPage,
       }));
       handleProducts(nextPage, userSession);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -71,16 +72,13 @@ export const ShowProductsPage = () => {
         page: prevPage,
       }));
       handleProducts(prevPage, userSession);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   useEffect(() => {
     handleSessionUser();
   }, []);
-
-  if (loading) {
-    return <p>Cargando...</p>; // O puedes utilizar un spinner u otro indicador de carga.
-  }
 
   return (
     <div className="w-full h-full bg-[#144272]">
@@ -89,7 +87,11 @@ export const ShowProductsPage = () => {
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-2 xxl:grid-cols-4 w-full p-3">
         {products &&
           products.map((product) => (
-            <ProductItem key={product._id} {...product} />
+            <ProductItem
+              key={product._id}
+              IDproduct={product._id}
+              {...product}
+            />
           ))}
       </div>
       {products && (
