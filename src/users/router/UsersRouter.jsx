@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "../../ui/components/Navbar";
-import { DetailUser } from "../pages/detailUser";
+import { DetailUser } from "../pages/DetailUser";
 import { AdminUser } from "../pages/AdminUser";
 
 export const UsersRouter = () => {
