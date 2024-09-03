@@ -46,7 +46,7 @@ export const DetailCart = () => {
           });
         }
       } else {
-        console.error("Invalid responseTotal structure:", responseTotal);
+        console.error("Invalid response structure:", responseTotal);
         setTotalCart({
           subTotal: 0,
           total: 0,
