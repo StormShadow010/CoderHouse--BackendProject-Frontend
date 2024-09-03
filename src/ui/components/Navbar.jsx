@@ -18,7 +18,6 @@ export const Navbar = () => {
 
   const handleUserOnline = async () => {
     const response = await usersGet("/");
-    console.log(response);
 
     if (response.statusCode === 200) {
       setUserSession((prevState) => {
@@ -116,9 +115,11 @@ export const Navbar = () => {
                 <Link to="/users/profile">
                   <FaUser color="white" size={24} />
                 </Link>
-                <Link to="/carts">
-                  <BiSolidCartAlt color="white" size={24} />
-                </Link>
+                {userSession.role !== 1 && (
+                  <Link to="/carts">
+                    <BiSolidCartAlt color="white" size={24} />
+                  </Link>
+                )}
                 {userSession.role === 1 && (
                   <Link to="/users/adminUsers">
                     <FaUserEdit color="white" size={24} />
