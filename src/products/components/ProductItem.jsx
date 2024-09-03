@@ -4,7 +4,6 @@ import { cartsCreate, usersGet } from "../../controllers";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-// eslint-disable-next-line react/prop-types
 export const ProductItem = ({
   IDproduct,
   photo,
