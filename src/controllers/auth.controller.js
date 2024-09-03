@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8080";
+const baseURL = "https://backendcoderhouse-jt1v.onrender.com";
 
 export const authPost = async (route = "", data = {}) => {
   try {

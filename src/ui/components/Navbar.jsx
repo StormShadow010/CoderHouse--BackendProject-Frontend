@@ -18,6 +18,8 @@ export const Navbar = () => {
 
   const handleUserOnline = async () => {
     const response = await usersGet("/");
+    console.log(response);
+
     if (response.statusCode === 200) {
       setUserSession((prevState) => {
         const updatedFields = Object.keys(prevState).reduce((acc, key) => {

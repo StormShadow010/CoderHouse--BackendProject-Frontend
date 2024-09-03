@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "http://localhost:8080";
+const baseURL = "https://backendcoderhouse-jt1v.onrender.com";
 
 export const ticketsGet = async (route) => {
   try {

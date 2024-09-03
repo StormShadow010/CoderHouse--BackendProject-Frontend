@@ -1,16 +1,13 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "http://localhost:8080";
+const baseURL = "https://backendcoderhouse-jt1v.onrender.com";
 
 export const usersGet = async (route = "") => {
   try {
-    // Obtén el token de la cookie
-    const token = Cookies.get("token"); // Reemplaza 'yourCookieName' con el nombre de tu cookie
-    // Configura los headers para incluir el token
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`, // Usa 'Bearer' si tu backend sigue esta convención, si no, ajusta según sea necesario
+        "Content-Type": "application/json",
       },
       withCredentials: true,
     };
