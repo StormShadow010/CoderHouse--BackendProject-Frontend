@@ -49,7 +49,7 @@ export const ticketCheckoutPost = async () => {
       },
       withCredentials: true,
     };
-    const response = await axios.post(`${baseURL}/api/checkout`, opts);
+    const response = await axios.post(`${baseURL}/api/checkout`, {}, opts);
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
