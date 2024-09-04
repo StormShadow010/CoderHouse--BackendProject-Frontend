@@ -41,7 +41,7 @@ export const ticketsPost = async (id) => {
   }
 };
 
-export const ticketCheckoutPost = async () => {
+export const ticketCheckoutPost = async (id) => {
   try {
     const opts = {
       headers: {
@@ -49,7 +49,11 @@ export const ticketCheckoutPost = async () => {
       },
       withCredentials: true,
     };
-    const response = await axios.post(`${baseURL}/api/checkout/`, {}, opts);
+    const response = await axios.post(
+      `${baseURL}/api/checkout/${id}`,
+      {},
+      opts
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
