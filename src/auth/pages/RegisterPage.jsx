@@ -92,7 +92,7 @@ export const RegisterPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-screen bg-[#090F26]">
+    <div className="w-full min-h-screen bg-[#090F26] flex flex-col justify-center items-center text-white">
       <div className="flex flex-col items-center ">
         <Link to="/">
           <img

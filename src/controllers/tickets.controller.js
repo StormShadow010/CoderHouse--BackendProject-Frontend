@@ -40,3 +40,18 @@ export const ticketsPost = async (id) => {
     console.error("Error fetching data:", error);
   }
 };
+
+export const ticketCheckoutPost = async () => {
+  try {
+    const opts = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    };
+    const response = await axios.post(`${baseURL}/api/checkout`, opts);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};

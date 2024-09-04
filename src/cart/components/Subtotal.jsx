@@ -2,12 +2,18 @@
 
 import Swal from "sweetalert2";
 import { cartsDeleteProduct } from "../../controllers";
-import { ticketsPost } from "../../controllers/tickets.controller";
+import {
+  ticketCheckoutPost,
+  ticketsPost,
+} from "../../controllers/tickets.controller";
 import { useNavigate } from "react-router-dom";
 
 export const Subtotal = ({ totalCart, userSession, onQuantityChange }) => {
   const navigate = useNavigate();
-  const handleTicket = () => {
+  const handleTicket = async () => {
+    const compra = await ticketCheckoutPost();
+    console.log(compra);
+
     Swal.fire({
       title: "Are you sure?",
       text: "You want to buy what you want?",

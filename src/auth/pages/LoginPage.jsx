@@ -64,7 +64,7 @@ export const LoginPage = () => {
       });
     } else {
       Swal.fire({
-        title: response.message,
+        title: "Login failed",
         width: 300,
         padding: "0.2em",
         color: "#FF0000",
