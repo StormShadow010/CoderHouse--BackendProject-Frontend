@@ -11,9 +11,6 @@ import { useNavigate } from "react-router-dom";
 export const Subtotal = ({ totalCart, userSession, onQuantityChange }) => {
   const navigate = useNavigate();
   const handleTicket = async () => {
-    const compra = await ticketCheckoutPost(userSession.response._id);
-    console.log(compra);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You want to buy what you want?",
@@ -34,9 +31,12 @@ export const Subtotal = ({ totalCart, userSession, onQuantityChange }) => {
             allowOutsideClick: false,
             timerProgressBar: true,
           }).then(async () => {
+            const compra = await ticketCheckoutPost(userSession.response._id);
+            console.log(compra);
+
+            window.location.href = `${compra.response.url}`;
             await cartsDeleteProduct(`/all/${userSession.response._id}`);
             onQuantityChange();
-            navigate(`/`);
           });
         } else {
           Swal.fire({
