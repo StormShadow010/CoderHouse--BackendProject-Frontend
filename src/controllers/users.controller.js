@@ -22,11 +22,9 @@ export const usersGet = async (route = "") => {
 
 export const usersPost = async (route = "", data = {}) => {
   try {
-    const token = Cookies.get("token");
     const opts = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       withCredentials: true, // Incluir cookies en la solicitud
     };
