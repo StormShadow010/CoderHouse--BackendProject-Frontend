@@ -50,7 +50,7 @@ export const ticketCheckoutPost = async (id) => {
       withCredentials: true,
     };
     const response = await axios.post(
-      `${baseURL}/api/checkout/${id}`,
+      `${baseURL}/api/checkout?uid=${id}`,
       {},
       opts
     );
