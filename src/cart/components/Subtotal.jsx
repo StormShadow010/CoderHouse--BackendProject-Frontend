@@ -6,10 +6,8 @@ import {
   ticketCheckoutPost,
   ticketsPost,
 } from "../../controllers/tickets.controller";
-import { useNavigate } from "react-router-dom";
 
 export const Subtotal = ({ totalCart, userSession, onQuantityChange }) => {
-  const navigate = useNavigate();
   const handleTicket = async () => {
     Swal.fire({
       title: "Are you sure?",
@@ -22,6 +20,8 @@ export const Subtotal = ({ totalCart, userSession, onQuantityChange }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const response = await ticketsPost(`${userSession.response._id}`);
+        console.log(response);
+
         if (response.statusCode === 200) {
           Swal.fire({
             title: "Ticket generated!",
