@@ -18,8 +18,8 @@ export const productsGet = async (route, { userId = "", userRole = "" }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        "user-id": userId,
-        "user-role": userRole,
+        "user-id": userId || "",
+        "user-role": userRole || "",
         Authorization: `Bearer ${token}`,
       },
       withCredentials: true,

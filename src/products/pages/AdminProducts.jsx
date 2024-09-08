@@ -26,7 +26,7 @@ export const AdminProducts = () => {
     }
   };
   const handleProducts = async (page, userSessionData = null) => {
-    const userId = userSessionData._id.toString();
+    const userId = userSessionData._id;
     const userRole = userSessionData.role;
 
     try {
