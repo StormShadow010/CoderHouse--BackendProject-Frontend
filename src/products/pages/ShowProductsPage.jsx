@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { ProductItem } from "../components/ProductItem";
-import { Link } from "react-router-dom";
 import { productsGet, usersGet } from "../../controllers";
 import { MenuProductsAdmin } from "../../ui/components/MenuProductsAdmin";
 
 export const ShowProductsPage = () => {
+  const [searchValue, setSearchValue] = useState("");
   const [userSession, setUserSession] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingProducts, setLoadingProducts] = useState(false); // Nuevo estado para manejar la carga de productos
   const [detailPage, setDetailPage] = useState({
     limit: 0,
     nextPage: null,
@@ -31,6 +32,7 @@ export const ShowProductsPage = () => {
   };
 
   const handleProducts = async (page, userSessionData = null) => {
+    setLoadingProducts(true); // Inicia la carga de productos
     const userId = userSessionData?._id ? userSessionData._id.toString() : "";
     const userRole = userSessionData?.role || "";
 
@@ -49,6 +51,8 @@ export const ShowProductsPage = () => {
       }));
     } catch (error) {
       console.error("Error fetching products:", error);
+    } finally {
+      setLoadingProducts(false); // Finaliza la carga de productos
     }
   };
 
@@ -76,24 +80,75 @@ export const ShowProductsPage = () => {
     }
   };
 
+  const onHandleSearch = (e) => {
+    const newValue = e.target.value;
+    setSearchValue(newValue);
+    setDetailPage((prevState) => ({
+      ...prevState,
+      page: 1,
+      filter: newValue,
+    }));
+  };
+
   useEffect(() => {
     handleSessionUser();
   }, []);
+
+  useEffect(() => {
+    handleProducts(detailPage.page, userSession);
+  }, [detailPage.page, detailPage.filter]); // Solo actualizamos productos si cambia `page` o `filter`
 
   return (
     <div className="w-full h-full bg-[#144272]">
       {/* Mostrar el menú adicional solo si el rol es 1 o 2 */}
       <MenuProductsAdmin />
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-2 xxl:grid-cols-4 w-full p-3">
-        {products &&
-          products.map((product) => (
+      <div className="flex items-center justify-center w-full mt-4 md:mt-0">
+        <div className="flex items-center justify-center w-full mx-auto bg-white rounded-lg md:w-1/2 m-4">
+          <input
+            type="search"
+            className="w-full px-4 py-1 text-gray-800 rounded-full focus:outline-none"
+            placeholder="search"
+            onChange={onHandleSearch}
+            value={searchValue}
+          />
+          <button
+            type="submit"
+            className="flex items-center bg-blue-500 justify-center w-12 h-12 text-white rounded-r-lg"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {loadingProducts ? (
+        <div className="flex justify-center items-center">
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-2 xxl:grid-cols-4 w-full p-3">
+          {products.map((product) => (
             <ProductItem
               key={product._id}
               IDproduct={product._id}
               {...product}
             />
           ))}
-      </div>
+        </div>
+      )}
+
       {products && (
         <div className="flex justify-center">
           <button
