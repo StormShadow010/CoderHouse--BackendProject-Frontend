@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 export const Subtotal = ({ totalCart, userSession, onQuantityChange }) => {
   const navigate = useNavigate();
   const handleTicket = async () => {
-    // const compra = await ticketCheckoutPost(userSession.response._id);
-    // console.log(compra);
+    const compra = await ticketCheckoutPost(userSession.response._id);
+    console.log(compra);
 
     Swal.fire({
       title: "Are you sure?",
