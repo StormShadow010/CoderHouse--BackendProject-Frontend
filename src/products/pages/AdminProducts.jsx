@@ -28,12 +28,14 @@ export const AdminProducts = () => {
   const handleProducts = async (page, userSessionData = null) => {
     const userId = userSessionData._id;
     const userRole = userSessionData.role;
+    console.log(userId, userRole);
 
     try {
       let responseProducts = await productsGet(`/me?page=${page}`, {
         userId,
         userRole,
       });
+      console.log(responseProducts);
       setProducts(responseProducts.response);
       setDetailPage((prevState) => ({
         ...prevState,
