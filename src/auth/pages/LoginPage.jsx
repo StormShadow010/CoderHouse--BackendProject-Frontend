@@ -20,7 +20,6 @@ export const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     // API endpoint for login
     const response = await usersPost(`/login`, {
       email: user.email,
@@ -28,6 +27,22 @@ export const LoginPage = () => {
     });
     if (response.statusCode === 200) {
       setIsModalOpen(true);
+    } else {
+      Swal.fire({
+        title: "Login failed",
+        width: 300,
+        padding: "0.2em",
+        color: "#FF0000",
+        imageUrl:
+          "https://blog.sqlauthority.com/wp-content/uploads/2015/06/erroricons.png",
+        imageWidth: 250,
+        imageHeight: 250,
+        imageAlt: "Login failed",
+        allowOutsideClick: false,
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
     }
   };
 

@@ -1,8 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseURL = "https://backendcoderhouse-jt1v.onrender.com";
-// const baseURL = "http://localhost:8081";
+// const baseURL = "https://backendcoderhouse-jt1v.onrender.com";
+const baseURL = "http://localhost:8081";
 
 export const productRoute = async (route) => {
   try {

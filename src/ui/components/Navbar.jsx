@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaSignInAlt, FaUser, FaSignOutAlt, FaUserEdit } from "react-icons/fa";
 import { BiSolidCartAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ export const Navbar = () => {
     role: "",
   });
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleUserOnline = async () => {
     const response = await usersGet("/");
@@ -51,8 +52,10 @@ export const Navbar = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const response = await usersPost(`/signout`);
+
         if (response.statusCode === 200) {
           setIsLoggedIn(false);
+          navigate("/");
         }
       }
     });
