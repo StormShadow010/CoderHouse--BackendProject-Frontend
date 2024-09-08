@@ -19,36 +19,11 @@ export const Subtotal = ({ totalCart, userSession, onQuantityChange }) => {
       confirmButtonText: "Yes!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const response = await ticketsPost(`${userSession.response._id}`);
-        console.log(response);
-
-        if (response.statusCode === 200) {
-          Swal.fire({
-            title: "Ticket generated!",
-            icon: "success",
-            timer: 1500,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-            timerProgressBar: true,
-          }).then(async () => {
-            const compra = await ticketCheckoutPost(userSession.response._id);
-            console.log(compra);
-
-            window.location.href = `${compra.response.url}`;
-            await cartsDeleteProduct(`/all/${userSession.response._id}`);
-            onQuantityChange();
-          });
-        } else {
-          Swal.fire({
-            title: "Error",
-            text: "Failed to generate ticket",
-            icon: "error",
-            timer: 1500,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-            timerProgressBar: true,
-          });
-        }
+        const checkOut = await ticketCheckoutPost(userSession.response._id);
+        window.location.href = `${checkOut.response.url}`;
+        await ticketsPost(`${userSession.response._id}`);
+        await cartsDeleteProduct(`/all/${userSession.response._id}`);
+        onQuantityChange();
       }
     });
   };
